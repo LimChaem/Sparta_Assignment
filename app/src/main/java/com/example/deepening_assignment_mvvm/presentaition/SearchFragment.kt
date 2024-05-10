@@ -89,10 +89,6 @@ class SearchFragment : Fragment() {
         mActivity.receiveData(word)
     }
 
-    private fun loadToData(){
-//        val pref = getSharedPreferences("lastWord", 0)
-    }
-
     companion object {
 
         @JvmStatic

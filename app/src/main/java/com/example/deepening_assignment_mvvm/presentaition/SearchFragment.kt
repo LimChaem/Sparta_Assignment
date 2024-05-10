@@ -22,11 +22,7 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-
-
     private val word by lazy { binding.etInputKeyword.text.toString() }
-
-
     private val searchImageViewModel by activityViewModels<SearchImageViewModel> {
         SearchImageViewModelFactory()
     }
@@ -52,15 +48,22 @@ class SearchFragment : Fragment() {
 
     private fun initAdapter() {
         val adapter = ImageRecyclerVIewAdapter { document ->
-            if (document.isLike) {
-                (activity as? MainActivity)?.addImageToSelectedList(document)
-            }
+            updateSelectedImages(document)
         }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
         searchImageViewModel.getSearchImageResponse.observe(viewLifecycleOwner) { items ->
             adapter.items = items  // Adapter에 아이템 리스트를 업데이트
             adapter.notifyDataSetChanged()  // 데이터 변경 알림
+        }
+    }
+
+    private fun updateSelectedImages(document: DocumentsEntity) {
+        val mainActivity = activity as? MainActivity
+        if (document.isLike) {
+            mainActivity?.addImageToSelectedList(document)
+        } else {
+            mainActivity?.removeImageFromSelectedList(document)
         }
     }
 

@@ -22,12 +22,6 @@ class MainActivity : AppCompatActivity(), ReceiveData {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private val selectedImages = mutableListOf<DocumentsEntity>()
-    private val lastWord by lazy{
-        val pref = getSharedPreferences("lastWord",0)
-        val lastWord = pref.getString(SEARCH_WORD, "")
-        Log.d(TAG, "Loaded word: $lastWord")
-        lastWord
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,21 +42,23 @@ class MainActivity : AppCompatActivity(), ReceiveData {
     }
 
     private fun setSearchFragment() {
-        loadToLastWord(SearchFragment(), lastWord?: "")
+        val pref = getSharedPreferences("lastWord",0)
+        val lastWord = pref.getString(SEARCH_WORD, "")
+        Log.d(TAG, "Loaded word: $lastWord")
+
+        val searchFragment = SearchFragment()
+        loadToLastWord(searchFragment, lastWord ?: "")
         supportFragmentManager
             .beginTransaction()
-            .replace(binding.frameLayout1.id, SearchFragment())
+            .replace(binding.frameLayout1.id, searchFragment)
             .commit()
     }
-
     private fun setMyBoxFragment(){
         supportFragmentManager
             .beginTransaction()
-
             .replace(binding.frameLayout1.id, MyBoxFragment())
             .commit()
     }
-
     private fun changedFragment(){
         with(binding) {
             btn1.setOnClickListener {
@@ -73,7 +69,6 @@ class MainActivity : AppCompatActivity(), ReceiveData {
             }
         }
     }
-
     private fun savedLastKeyWord(word: String){
         val pref = getSharedPreferences("lastWord", 0)
         val edit : SharedPreferences.Editor = pref.edit()
@@ -81,11 +76,9 @@ class MainActivity : AppCompatActivity(), ReceiveData {
         Log.d(TAG, "Saved word: $word")
 
     }
-
     override fun receiveData(data: String) {
         savedLastKeyWord(data)
     }
-
     private fun loadToLastWord(fragment: Fragment, data: String){
         val bundle = Bundle()
         bundle.putString("data", data)
@@ -93,21 +86,15 @@ class MainActivity : AppCompatActivity(), ReceiveData {
         Log.d(TAG, "Data passed to fragment: $data")
         Log.d(TAG, "Bundle set with data: ${bundle.getString("data")}")
     }
-
-    fun addImageToSelectedList(image: DocumentsEntity) {
-        if (!selectedImages.contains(image)) {
-            selectedImages.add(image)
-
-            Log.d(TAG, "$selectedImages")
+    fun addImageToSelectedList(document: DocumentsEntity) {
+        if (!selectedImages.contains(document)) {
+            selectedImages.add(document)
         }
     }
-
-    fun removeImageFromSelectedList(image: DocumentsEntity) {
-        selectedImages.remove(image)
+    fun removeImageFromSelectedList(document: DocumentsEntity) {
+        selectedImages.remove(document)
     }
-
     fun getSelectedImages(): MutableList<DocumentsEntity> = selectedImages
-
     companion object{
         const val SEARCH_WORD = "lastSearchWord"
         const val TAG = "sharedPref"

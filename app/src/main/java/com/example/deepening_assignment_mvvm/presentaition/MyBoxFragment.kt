@@ -35,19 +35,20 @@ class MyBoxFragment : Fragment() {
 
         return binding.root
     }
-    private fun initAdapter(){
-        Log.d("repository", "$selectedImages")
-        val adapter = ImageRecyclerVIewAdapter { selectedImages ->
-            if(!selectedImages.isLike) {
-                (activity as? MainActivity)?.removeImageFromSelectedList(selectedImages)
+
+    private fun initAdapter() {
+        adapter = ImageRecyclerVIewAdapter { document ->
+            val position = adapter.items.indexOf(document)
+            if (!document.isLike) {
+                (activity as? MainActivity)?.removeImageFromSelectedList(document)
+                adapter.notifyItemRemoved(position)
+                adapter.items = adapter.items.filter { it != document }  // 리스트에서 아이템 제거
             }
         }
+        val selectedImages = (activity as MainActivity).getSelectedImages()
         adapter.items = selectedImages
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        adapter.notifyDataSetChanged()
     }
-
-
-
 }
+

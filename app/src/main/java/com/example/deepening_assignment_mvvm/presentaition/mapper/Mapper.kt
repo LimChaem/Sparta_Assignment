@@ -1,7 +1,6 @@
 package com.example.deepening_assignment_mvvm.presentaition.mapper
 
 import com.example.deepening_assignment_mvvm.data.remote.Documents
-import com.example.deepening_assignment_mvvm.data.remote.Meta
 import com.example.deepening_assignment_mvvm.data.remote.SearchImageResponse
 import com.example.deepening_assignment_mvvm.presentaition.entity.DocumentsEntity
 import com.example.deepening_assignment_mvvm.presentaition.entity.SearchImageEntity

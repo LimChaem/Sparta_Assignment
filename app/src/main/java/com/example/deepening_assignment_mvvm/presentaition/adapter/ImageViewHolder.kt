@@ -1,17 +1,13 @@
-package com.example.deepening_assignment_mvvm.presentaition.viewholder
+package com.example.deepening_assignment_mvvm.presentaition.adapter
 
 import android.util.Log
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.deepening_assignment_mvvm.databinding.ItemRecyclerviewBinding
 import com.example.deepening_assignment_mvvm.presentaition.entity.DocumentsEntity
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class ImageViewHolder(
     private val binding: ItemRecyclerviewBinding

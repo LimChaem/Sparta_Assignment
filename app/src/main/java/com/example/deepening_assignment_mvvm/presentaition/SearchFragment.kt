@@ -22,7 +22,6 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val word by lazy { binding.etInputKeyword.text.toString() }
     private val searchImageViewModel by activityViewModels<SearchImageViewModel> {
         SearchImageViewModelFactory()
     }
@@ -42,8 +41,8 @@ class SearchFragment : Fragment() {
         initAdapter()
         searchBtnClickListener()
         binding.etInputKeyword.setText(lastSearchWord)
-        return binding.root
 
+        return binding.root
     }
 
     private fun initAdapter() {
@@ -67,33 +66,23 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun hideKeyBoard(){
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private fun hideKeyBoard() {
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
     }
 
     private fun searchBtnClickListener() {
         binding.searchBtn.setOnClickListener {
-
+            val word = binding.etInputKeyword.text.toString()
             searchImageViewModel.getSearchImageList(word)
-
             hideKeyBoard()
             sendToData(word)
-
         }
-
     }
 
-    private fun sendToData(word: String){
+    private fun sendToData(word: String) {
         val mActivity = activity as MainActivity
         mActivity.receiveData(word)
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) = SearchFragment().apply {
-
-        }
     }
 }

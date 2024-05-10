@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchImageResponse(
     @SerializedName("meta")
-val meta: Meta,
+    val meta: Meta,
     @SerializedName("documents")
-val documents: List<Documents>
+    val documents: List<Documents>
 )
 
 data class Meta(
